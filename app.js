@@ -6,8 +6,20 @@ const design = document.querySelector(".design");
 const hr = document.querySelector(".hr");
 const medi = document.querySelector(".medi");
 const rightPane = document.querySelector(".right-pane");
-let jobs;
-let jobDetails;
+let jobs, jobDetails, jobsIsLoading=true, loadingIndicator=jobListing.querySelector('.loading-jobs') ;
+
+const loading=(status, indicator)=>{
+  return new Promise((resolve, reject)=>{
+    if(status){
+      reject(indicator.style.opacity=1);
+    // indicator.style.opacity=1
+    }
+    else{
+      resolve(indicator.style.opacity=0)
+      // indicator.style.opacity=0
+    }
+  })
+}
 
 function truncate(str, num) {
   if (num > str.length) {
@@ -24,7 +36,7 @@ function check(val) {
 }
 
 async function fetchJobs(api) {
-  fetch(api)
+ await fetch(api)
     .then((res) => res.json())
     .then((data) => {
        jobs = data.jobs;
@@ -33,6 +45,7 @@ async function fetchJobs(api) {
         const {stringify} =JSON ;
         let job = document.createElement("div");
         job.classList.add("job");
+        // Everthing you want to display will / should be passed to the data- atrribute of the element with the class of  detail < > :)
         job.innerHTML = `
               <div class="details" data-job-company-name=${data.company_name} >
                 <div class="left">
@@ -65,6 +78,8 @@ async function fetchJobs(api) {
 
 }
 fetchJobs(API);
+// created an instance of muation to watch the joblisting NODE ;
+// cause it take a litle bit to fetch from the API
 const mutation= new MutationObserver((observe)=>{
   // console.log(observe);
 
@@ -74,7 +89,13 @@ try{
   jobDetails=jobListing.querySelectorAll('.job-listing .job');
 if(jobDetails.length>0){
   // remove a loading image or something...
-  // You get :D 
+  // You get :D ;
+  jobsIsLoading=false
+  loading(jobsIsLoading, loadingIndicator).then((e)=>{
+console.log(e);
+  }).catch(e=>{
+    console.log(e);
+  })
 }
   // iterate through the job listings
   jobDetails.forEach((jobDetail, i)=>{
