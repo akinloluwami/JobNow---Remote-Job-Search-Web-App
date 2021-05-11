@@ -29,7 +29,7 @@ function fetchJobs(api) {
         let job = document.createElement("div");
         job.classList.add("job");
         job.innerHTML = `
-              <div class="details">
+              <div class="details" data-job-description=${data.description} data-job-salary=${check(data.salary)}  data-job-company-name=${data.company_name} data-job-location=${truncate(data.candidate_required_location, 15)} data-job-logo=${data.company_logo_url} >
                 <div class="left">
                   <div class="logo">
                   <img src=${data.company_logo_url}/>
