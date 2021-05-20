@@ -6,6 +6,7 @@ const design = document.querySelector(".design");
 const hr = document.querySelector(".hr");
 const medi = document.querySelector(".medi");
 const rightPane = document.querySelector(".right-pane");
+
 function truncate(str, num) {
   if (num > str.length) {
     return str;
@@ -29,7 +30,7 @@ function fetchJobs(api) {
         let job = document.createElement("div");
         job.classList.add("job");
         job.innerHTML = `
-              <div class="details">
+              <div class="details" id=${data.id}>
                 <div class="left">
                   <div class="logo">
                   <img src=${data.company_logo_url}/>
@@ -54,13 +55,14 @@ function fetchJobs(api) {
               </div>
           `;
         jobListing.appendChild(job);
+        const test = document.querySelector(".job");
         const container = document.createElement("div");
         container.classList.add("container");
-        container.innerHTML = `
-          <div class="company-info">
-            <div class="logo"></div>
-            <p class="company-name">${data.company_name}</p>
-        </div>`;
+        // container.innerHTML = `
+        //   <div class="company-info">
+        //     <div class="logo"></div>
+        //     <p class="company-name">${data.company_name}</p>
+        // </div>`;
         rightPane.append(container);
       });
     });
